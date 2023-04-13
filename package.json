@@ -21,7 +21,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "build-css": "sass -I ./src ./src -w",
+    "build-css": "sass -I ./src ./src",
+    "build-css-watch": "sass -I ./src ./src -w",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
