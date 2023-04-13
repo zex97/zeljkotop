@@ -1,0 +1,52 @@
+/* Header */
+.topline-mario {
+    position: absolute;
+}
+
+.topline-world {
+    position: absolute;
+    left: 55%;
+}
+
+.topline-time {
+    position: absolute;
+    left: 85%;
+}
+
+.bottomline-score {
+    position: absolute;
+    top: 90px;
+}
+
+.bottomline-coin {
+    position: absolute;
+    top: 80px;
+    left: 30%;
+}
+
+.bottomline-world {
+    position: absolute;
+    top: 90px;
+    left: 55%;
+}
+
+.bottomline-time {
+    position: absolute;
+    top: 90px;
+    left: 85.5%;
+}
+
+
+/* Header - Scorebar */
+.scorebar {
+    height: 120px;
+    width: 100%;
+
+    font-family: 'Press Start 2P', cursive;
+    font-size: 100%;
+    color: white;
+
+    padding-left: 50px;
+    padding-right: 50px;
+    line-height: 0.2;
+}

@@ -1,0 +1,14 @@
+@import '../../variables.scss';
+
+.ReactSuperMario {
+  .Player {
+    position: absolute;
+    width: $marioWidth;
+    height: $marioHeight;
+    z-index: 2;
+    left: 0;
+    bottom: $groundHeight;
+    background-repeat: no-repeat;
+    transition: left 400ms ease-out, bottom 100ms ease-out;
+  }
+}

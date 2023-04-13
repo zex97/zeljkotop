@@ -1,0 +1,20 @@
+.absoluteFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ReactSuperMario .Player {
+  position: absolute;
+  width: 48px;
+  height: 54px;
+  z-index: 2;
+  left: 0;
+  bottom: 24px;
+  background-repeat: no-repeat;
+  transition: left 400ms ease-out, bottom 100ms ease-out;
+}
+
+/*# sourceMappingURL=Player.css.map */
