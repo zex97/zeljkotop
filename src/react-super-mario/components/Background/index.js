@@ -14,7 +14,7 @@ type Props = {
 
 export default function Background(props: Props) {
     const { position, callback} = props;
-    const [active, setActive] = useState(true);
+    const [active, setActive] = useState(false);
 
     const handleMuteUnmute = () => {
         // execute callback for pausing/playing music

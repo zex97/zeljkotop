@@ -259,9 +259,11 @@ export default class ReactSuperMario extends React.Component<Props, State> {
   }
 
   changeMusicState = () => {
-    if (this._audioRef.paused) {
+    if (this._audioRef.muted) {
+      this._audioRef.muted = false;
       this._audioRef.play();
     } else {
+      this._audioRef.muted = true;
       this._audioRef.pause();
     }
   }
@@ -286,7 +288,7 @@ export default class ReactSuperMario extends React.Component<Props, State> {
           isMoving={isMoving}
           isJumping={isJumping}
         />
-        <audio src={introMusic} ref={this.getAudioRef} />
+        <audio muted src={introMusic} ref={this.getAudioRef} />
         <audio ref={this.getSfxAudioRef} />
         <Touchable
           onTouch={this.handleGameInfo}
