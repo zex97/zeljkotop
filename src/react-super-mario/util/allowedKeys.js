@@ -5,10 +5,11 @@ type keys = {
   ArrowRight: boolean,
   ArrowUp: boolean,
   ArrowDown: boolean,
-  a: boolean,
-  s: boolean,
-  z: boolean,
-  x: boolean,
+  Space: boolean,
+  KeyA: boolean,
+  KeyS: boolean,
+  KeyZ: boolean,
+  KeyX: boolean,
 }
 
 const allowedKeys: keys = {
@@ -16,10 +17,11 @@ const allowedKeys: keys = {
   ArrowRight: false,
   ArrowUp: false,
   ArrowDown: false,
-  a: false,
-  s: false,
-  z: false,
-  x: false,
+  Space: false,
+  KeyA: false,
+  KeyS: false,
+  KeyZ: false,
+  KeyX: false,
 }
 
 export default allowedKeys

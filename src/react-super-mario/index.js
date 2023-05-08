@@ -8,8 +8,8 @@ import ButtonInfo from './components/Buttons/info'
 import InfoBox from './components/Infobox'
 import allowedKeys from './util/allowedKeys'
 import variables from './util/variables'
-import introMusic from './assets/audio/mpi.wav'
 import music from './assets/audio/mp.wav'
+import intro from './assets/audio/mpi.wav'
 import jumpAudio from './assets/audio/smw_jump.wav'
 import infoAudio from './assets/audio/smw_message_block.wav'
 import './ReactSuperMario.css'
@@ -60,7 +60,7 @@ export default class ReactSuperMario extends React.Component<Props, State> {
     window.addEventListener('touchmove', this.handleTouchMove)
     window.addEventListener('touchend', this.handleTouchEnd)
     this._gameCoreRunTimeout = setInterval(this.gameCoreRun, 80)
-    toastr.success('Move with arrow LEFT/RIGHT <br/>Run with A or S <br/>Jump with Z', 'Instructions', { timeOut: 5000 })
+    toastr.success('Move with arrow LEFT/RIGHT <br/>Run with A or S <br/>Jump with Z or Space Bar', 'Instructions', { timeOut: 5000 })
   }
 
   componentWillUnmount() {
@@ -86,7 +86,7 @@ export default class ReactSuperMario extends React.Component<Props, State> {
   gameCoreRun = () => {
     const { direction, positionX, positionY, width, scenarioPosition, isJumping, isFalling } = this.state;
     const { _activeKeys } = this;
-    const step = _activeKeys.a || _activeKeys.s ?  20 : 10;
+    const step = _activeKeys.KeyA || _activeKeys.KeyS ?  20 : 10;
     const jumpLimit = 120;
 
     // Movement
@@ -111,8 +111,8 @@ export default class ReactSuperMario extends React.Component<Props, State> {
     }
 
     // Jump
-    if (_activeKeys.z && !isFalling) {
-      if (!isJumping && !this._audioRef.paused) {
+    if ((_activeKeys.KeyZ || _activeKeys.Space) && !isFalling) {
+      if (!isJumping && this._audioRef && !this._audioRef.muted) {
         this._audioSfxRef.src = jumpAudio
         this._audioSfxRef.play()
       }
@@ -124,10 +124,10 @@ export default class ReactSuperMario extends React.Component<Props, State> {
       }
     } else {
       if (positionY > 0) {
-        const nextPositionY = positionY - (_activeKeys.z ? 30 : 40)
+        const nextPositionY = positionY - (_activeKeys.KeyZ || _activeKeys.Space ? 30 : 40)
         this.setState({ isFalling: true, positionY: nextPositionY >= 0 ? nextPositionY : 0 })
       } else {
-        this.setState({ isJumping: false, isFalling: _activeKeys.z })
+        this.setState({ isJumping: false, isFalling: _activeKeys.KeyZ || _activeKeys.Space })
       }
     }
   }
@@ -148,8 +148,9 @@ export default class ReactSuperMario extends React.Component<Props, State> {
     })
     this._activeKeys.ArrowRight = false
     this._activeKeys.ArrowLeft = false
-    this._activeKeys.a = false
-    this._activeKeys.z = false
+    this._activeKeys.KeyA = false
+    this._activeKeys.KeyZ = false
+    this._activeKeys.Space = false
   }
 
   handleTouchMove = (event: TouchEvent) => {
@@ -158,9 +159,9 @@ export default class ReactSuperMario extends React.Component<Props, State> {
     const diffY = userTouchingY - event.touches[0].clientY
 
     if (Math.abs(diffX) > 100) {
-      this._activeKeys.a = true
+      this._activeKeys.KeyA = true
     } else {
-      this._activeKeys.a = false
+      this._activeKeys.KeyA = false
     }
     if (diffX > 20) {
       this._activeKeys.ArrowRight = true
@@ -171,15 +172,17 @@ export default class ReactSuperMario extends React.Component<Props, State> {
     }
 
     if (diffY > 40) {
-      this._activeKeys.z = true
+      this._activeKeys.KeyZ = true
+      this._activeKeys.Space = true
     } else {
-      this._activeKeys.z = false
+      this._activeKeys.keyZ = false
+      this._activeKeys.Space = false
     }
   }
 
   handleGameInfo = () => {
     clearInterval(this._gameCoreRunTimeout)
-    if (this._audioSfxRef && !this._audioRef.paused) {
+    if (this._audioSfxRef && this._audioRef && !this._audioRef.muted) {
       this._audioSfxRef.src = infoAudio
       this._audioSfxRef.play()
     }
@@ -193,57 +196,10 @@ export default class ReactSuperMario extends React.Component<Props, State> {
     }
   }
 
-  getAudioRef = (ref: ?HTMLAudioElement) => {
-    if (ref) {
-      this._audioRef = ref;
-      const tryRetry = () => new Promise((resolve, reject) => {
-        const playPromise = ref.play()
-        if (playPromise) {
-          playPromise
-            .then(() => {
-              deregister()
-              resolve()
-            })
-            .catch(reject)
-        } else {
-          deregister()
-          resolve()
-        }
-      })
-
-      const register = () => {
-        window.addEventListener('focus', tryRetry)
-        window.addEventListener('click', tryRetry)
-        window.addEventListener('keypress', tryRetry)
-        window.addEventListener('load', tryRetry)
-      }
-      const deregister = () => {
-        window.removeEventListener('focus', tryRetry)
-        window.removeEventListener('click', tryRetry)
-        window.removeEventListener('keypress', tryRetry)
-        window.removeEventListener('load', tryRetry)
-      }
-      tryRetry().catch(register)
-
-      ref.onended = () => {
-        ref.src = music
-        ref.loop = true
-        ref.play()
-        ref.onended = () => {}
-      }
-    }
-  }
-
-  getSfxAudioRef = (ref: ?HTMLAudioElement) => {
-    if (ref) {
-      this._audioSfxRef = ref;
-    }
-  }
-
   keyDown = (event: KeyboardEvent) => {
     const { _activeKeys, state: { displayInfo } } = this
-    if (_activeKeys[event.key] === false ) {
-      _activeKeys[event.key] = true
+    if (_activeKeys[event.code] === false ) {
+      _activeKeys[event.code] = true
       if (displayInfo) {
         this.setState({ displayInfo: false })
         this.restart()
@@ -253,24 +209,33 @@ export default class ReactSuperMario extends React.Component<Props, State> {
 
   keyUp = (event: KeyboardEvent) => {
     const { _activeKeys } = this;
-    if (_activeKeys[event.key] === true ) {
-      _activeKeys[event.key] = false;
+    if (_activeKeys[event.code] === true ) {
+      _activeKeys[event.code] = false;
     }
   }
 
   changeMusicState = () => {
-    if (this._audioRef.muted) {
-      this._audioRef.muted = false;
-      this._audioRef.play();
-
-      this._audioSfxRef.muted = false;
-      this._audioSfxRef.play();
-    } else {
+    if (!this._audioRef) {
+      this._audioSfxRef = new Audio();
+      this._audioRef = new Audio(intro);
       this._audioRef.muted = true;
       this._audioRef.pause();
+      this._audioRef.onended = () => {
+        this._audioRef.src = music;
+        this._audioRef.loop = true;
+        if (!this._audioRef.muted) {
+          this._audioRef.play();
+        }
+      };
+    }
 
+    if (this._audioRef.muted) {
+      this._audioSfxRef.muted = false;
+      this._audioRef.muted = false;
+      this._audioRef.play();
+    } else {
       this._audioSfxRef.muted = true;
-      this._audioSfxRef.pause();
+      this._audioRef.muted = true;
     }
   }
 
@@ -294,8 +259,6 @@ export default class ReactSuperMario extends React.Component<Props, State> {
           isMoving={isMoving}
           isJumping={isJumping}
         />
-        <audio muted src={introMusic} ref={this.getAudioRef} />
-        <audio muted ref={this.getSfxAudioRef} />
         <Touchable
           onTouch={this.handleGameInfo}
           active={displayInfo}
