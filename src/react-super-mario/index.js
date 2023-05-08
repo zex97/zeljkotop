@@ -217,7 +217,10 @@ export default class ReactSuperMario extends React.Component<Props, State> {
   changeMusicState = () => {
     if (!this._audioRef) {
       this._audioSfxRef = new Audio();
+      this._audioSfxRef.crossOrigin = 'anonymous';
+
       this._audioRef = new Audio(intro);
+      this._audioRef.crossOrigin = 'anonymous';
       this._audioRef.muted = true;
       this._audioRef.pause();
       this._audioRef.onended = () => {
