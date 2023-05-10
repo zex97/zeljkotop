@@ -36,20 +36,20 @@ export default function Background(props: Props) {
         >
             <div className="container scorebar">
                 <div className="row">
-                    <div className="col-3">
+                    <div className="col-sm-3 col-4">
                         <div>MARIO</div>
                         <div>OOOOOO</div>
                     </div>
-                    <div className="col-3">
+                    <div className="col-sm-3 col-4">
                         <span>
                             <img src={coin} height="20px"/> x OO
                         </span>
                     </div>
-                    <div className="col-3">
+                    <div className="col-sm-3 col-4">
                         <div>WORLD</div>
                         <div>1 - 1</div>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 d-none d-sm-block">
                         <div>TIME</div>
                         <div>&nbsp;111</div>
                     </div>
