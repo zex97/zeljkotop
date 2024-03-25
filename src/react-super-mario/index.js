@@ -275,25 +275,22 @@ export default class ReactSuperMario extends React.Component<Props, State> {
         </Touchable>
         {displayInfo && (
           <InfoBox>
-            {/*<h2>React JS Super Mario</h2>*/}
-            {/*<p>*/}
-            {/*  Check the source code*/}
-            {/*  {' '}*/}
-            {/*  <a href="https://github.com/fabiopaiva/react-super-mario" target="_blank" rel="noopener noreferrer">*/}
-            {/*    <i className="fab fa-github fa-2x" />*/}
-            {/*  </a>*/}
-            {/*</p>*/}
-            {/*<br />*/}
-            {/*<h2>Follow me:</h2>*/}
-            {/*<p>*/}
-            {/*  <a href="https://github.com/fabiopaiva" target="_blank" rel="noopener noreferrer">*/}
-            {/*    <i className="fab fa-github fa-2x" />*/}
-            {/*  </a>*/}
-            {/*  {' '}*/}
-            {/*  <a href="https://www.linkedin.com/in/fabio-dev/" target="_blank" rel="noopener noreferrer">*/}
-            {/*    <i className="fab fa-linkedin fa-2x" />*/}
-            {/*  </a>*/}
-            {/*</p>*/}
+            <h2>Welcome to my website!</h2>
+            <p>
+              Do you have what it takes to reach the top?
+              {' '}
+            </p>
+            <br />
+            <h2>Follow me:</h2>
+            <p>
+              <a href="https://github.com/zex97" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-github fa-2x" />
+              </a>
+              {' '}
+              <a href="https://www.linkedin.com/in/zeljko-lukic-420746206/" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-linkedin fa-2x" />
+              </a>
+            </p>
           </InfoBox>
         )}
       </div>
